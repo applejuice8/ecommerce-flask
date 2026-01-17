@@ -23,9 +23,9 @@ class CartItem(db.Model):
         nullable=False,
         default=1
     )
-
-    __table_args__ = (
-        db.UniqueConstraint('cart_id', 'product_id', name='uq_cart_product'),
+    product = db.relationship(
+        'Product',
+        backref='cart_items'
     )
 
     def __repr__(self):

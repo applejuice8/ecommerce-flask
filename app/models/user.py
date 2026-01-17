@@ -2,6 +2,7 @@
 
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 from app.extensions import db
 
 class User(UserMixin, db.Model):
@@ -12,7 +13,7 @@ class User(UserMixin, db.Model):
         primary_key=True,
         autoincrement=True
     )
-    name = db.Column(
+    username = db.Column(
         db.String(100),
         nullable=False,
     )
@@ -25,18 +26,26 @@ class User(UserMixin, db.Model):
         db.String(200),
         nullable=False
     )
-    carts = db.relationship(
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.now
+    )
+    cart = db.relationship(
         'Cart',
         backref='user',
-        lazy=True,
-        cascade='all, delete-orphan'
+        uselist=False
     )
 
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.set_password(password)
+
     def set_password(self, password):
-        self.password = generate_password_hash(password, method='sha256')
+        self.password = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
     def __repr__(self):
-        return f'<User id={self.id}, name={self.name}, email={self.email}>'
+        return f'<User id={self.id}, username={self.username} email={self.email}>'

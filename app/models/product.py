@@ -16,15 +16,18 @@ class Product(db.Model):
         db.String(100),
         nullable=False,
     )
+    price = db.Column(
+        db.Float,
+        nullable=False
+    )
+    stock = db.Column(
+        db.Integer,
+        default=0
+    )
     image = db.Column(
         db.String(500),
         default='static/images/no-image.png'
     )
-    cart_items = db.relationship(
-        'CartItem',
-        backref='product',
-        lazy=True
-    )
 
     def __repr__(self):
-        return f'<Product id={self.id}, name={self.name}, description={self.description}, image={self.image}>'
+        return f'<Product id={self.id}, name={self.name}, description={self.description}, price={self.price}, image={self.image}>'
