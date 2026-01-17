@@ -1,5 +1,5 @@
 from flask import Flask
-from .extensions import db, login_manager
+from app.extensions import db, login_manager
 
 def create_app():
     app = Flask(__name__)
@@ -9,9 +9,12 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
 
+    from app.models import User, Product, Cart, CartItem
+
     with app.app_context():
         # Create db tables
         db.create_all()
+        print('created')
 
         # Register blueprints
         from .home import bp as home_bp
