@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app.extensions import db
 from app.models import User, Cart
+from app.forms import LoginForm, SignupForm
 
 bp = Blueprint('auth', __name__)
 
@@ -10,9 +11,10 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('home.index'))
     
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
         
         user = User.query.filter_by(email=email).first()
         
@@ -22,18 +24,19 @@ def login():
             return redirect(url_for('home.index'))
         flash('Invalid email or password', 'danger')
 
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 @bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for('home.index'))
     
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        
+    form = SignupForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
+
         # Check if user exists
         if User.query.filter_by(email=email).first():
             flash('Email already registered', 'danger')
@@ -45,14 +48,17 @@ def signup():
         
         # Create user
         user = User(username=username, email=email, password=password)
-        cart = Cart(user_id=user.id)
-        db.session.add_all(user, cart)
+        db.session.add(user)
+        db.session.flush()
+
+        cart = Cart(user=user)
+        db.session.add(cart)
         db.session.commit()
 
-        flash('Account created! Please login.', 'success')
-        return redirect(url_for('auth.login'))
+        flash('Account created!', 'success')
+        return redirect(url_for('home.index'))
     
-    return render_template('signup.html')
+    return render_template('signup.html', form=form)
 
 @bp.route('/logout')
 @login_required
