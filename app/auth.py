@@ -36,15 +36,6 @@ def signup():
         username = form.username.data
         email = form.email.data
         password = form.password.data
-
-        # Check if user exists
-        if User.query.filter_by(email=email).first():
-            flash('Email already registered', 'danger')
-            return redirect(url_for('auth.signup'))
-        
-        if User.query.filter_by(username=username).first():
-            flash('Username already taken', 'danger')
-            return redirect(url_for('auth.signup'))
         
         # Create user
         user = User(username=username, email=email, password=password)
