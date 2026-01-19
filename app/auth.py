@@ -20,9 +20,8 @@ def login():
             login_user(user, remember=True)
             flash('Logged in successfully!', 'success')
             return redirect(url_for('home.index'))
-        else:
-            flash('Invalid email or password', 'danger')
-    
+        flash('Invalid email or password', 'danger')
+
     return render_template('login.html')
 
 @bp.route('/signup', methods=['GET', 'POST'])
@@ -46,14 +45,10 @@ def signup():
         
         # Create user
         user = User(username=username, email=email, password=password)
-        db.session.add(user)
-        db.session.commit()
-        
-        # Create cart for user
         cart = Cart(user_id=user.id)
-        db.session.add(cart)
+        db.session.add_all(user, cart)
         db.session.commit()
-        
+
         flash('Account created! Please login.', 'success')
         return redirect(url_for('auth.login'))
     

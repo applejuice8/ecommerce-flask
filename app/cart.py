@@ -9,22 +9,13 @@ bp = Blueprint('cart', __name__)
 @login_required
 def view_cart():
     cart = Cart.query.filter_by(user_id=current_user.id).first()
-    if not cart:
-        cart = Cart(user_id=current_user.id)
-        db.session.add(cart)
-        db.session.commit()
     
     return render_template('cart.html', cart=cart)
 
 @bp.route('/cart/add/<int:product_id>', methods=['POST'])
 @login_required
-def add_to_cart(product_id):
+def add_to_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
-    if not cart:
-        cart = Cart(user_id=current_user.id)
-        db.session.add(cart)
-        db.session.commit()
-    
     product = Product.query.get_or_404(product_id)
     
     # Check if item already in cart
@@ -41,15 +32,11 @@ def add_to_cart(product_id):
     
     return redirect(url_for('home.index'))
 
-@bp.route('/cart/remove/<int:item_id>', methods=['POST'])
+@bp.route('/cart/remove/<int:product_id>', methods=['POST'])
 @login_required
-def remove_from_cart(item_id):
-    cart_item = CartItem.query.get_or_404(item_id)
-    
-    # Check ownership
-    if cart_item.cart.user_id != current_user.id:
-        flash('Unauthorized action', 'danger')
-        return redirect(url_for('cart.view_cart'))
+def remove_from_cart(product_id: int):
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    cart_item = CartItem.query.get_or_404(cart_id=cart.id, product_id=product_id)
     
     db.session.delete(cart_item)
     db.session.commit()
@@ -57,16 +44,12 @@ def remove_from_cart(item_id):
     flash('Item removed from cart', 'success')
     return redirect(url_for('cart.view_cart'))
 
-@bp.route('/cart/update/<int:item_id>', methods=['POST'])
+@bp.route('/cart/update/<int:product_id>', methods=['POST'])
 @login_required
-def update_cart(item_id):
-    cart_item = CartItem.query.get_or_404(item_id)
-    
-    # Check ownership
-    if cart_item.cart.user_id != current_user.id:
-        flash('Unauthorized action', 'danger')
-        return redirect(url_for('cart.view_cart'))
-    
+def update_cart(product_id: int):
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    cart_item = CartItem.query.get_or_404(cart_id=cart.id, product_id=product_id)
+
     quantity = request.form.get('quantity', type=int)
     
     if quantity > 0:
