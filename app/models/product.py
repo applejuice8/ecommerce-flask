@@ -20,13 +20,9 @@ class Product(db.Model):
         db.Float,
         nullable=False
     )
-    stock = db.Column(
-        db.Integer,
-        default=0
-    )
     image = db.Column(
         db.String(500),
-        default='static/images/no-image.png'
+        default='static/images/no-image.jpg'
     )
 
     def __repr__(self):
