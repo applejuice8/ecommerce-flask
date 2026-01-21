@@ -19,7 +19,9 @@
 
                         {% if product.id in in_cart %}
                             <div class="btn-group">
-                                <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">-</button>
+                                <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">
+                                    {% if in_cart[product.id] == 1 %}🗑{% else %}-{% endif %}
+                                </button>
                                 <button class="btn btn-primary disabled">{{ in_cart[product.id] }}</button>
                                 <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
                             </div>

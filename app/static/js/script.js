@@ -9,7 +9,8 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
             },
             body: JSON.stringify({ action: action })
         });
-
+        
+        // Update frontend
         location.reload();
     })
 })

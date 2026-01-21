@@ -16,5 +16,5 @@ def index():
     in_cart = {}
     for cart_item in cart.items:
         in_cart[cart_item.product_id] = cart_item.quantity
-    
+
     return render_template('index.html', products=products, cart=cart, in_cart=in_cart)
