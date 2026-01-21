@@ -16,12 +16,21 @@
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">{{ product.description }}</p>
                         <p class="card-text">RM {{ product.price }}</p>
-                        <form method="POST" action="{{ url_for('cart.add_to_cart', product_id=product.id) }}">
-                            <button class="btn btn-primary" type="submit">Add to cart</button>
-                        </form>
+
+                        {% if product.id in in_cart %}
+                            <div class="btn-group">
+                                <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">-</button>
+                                <button class="btn btn-primary disabled">{{ in_cart[product.id] }}</button>
+                                <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
+                            </div>
+                        {% else %}
+                            <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="add">Add to cart</button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}

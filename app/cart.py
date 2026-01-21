@@ -48,19 +48,34 @@ def remove_from_cart(product_id: int):
 @login_required
 def update_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
-    cart_item = CartItem.query.get_or_404(cart_id=cart.id, product_id=product_id)
+    cart_item = CartItem.query.filter_by(cart_id=cart.id, product_id=product_id).first()
 
-    quantity = request.form.get('quantity', type=int)
+    data = request.get_json()
+    action = data.get('action')
     
-    if quantity > 0:
-        cart_item.quantity = quantity
-        db.session.commit()
-        flash('Cart updated', 'success')
-    else:
-        db.session.delete(cart_item)
-        db.session.commit()
-        flash('Item removed from cart', 'success')
+    match action:
+        case 'increase':
+            cart_item.quantity += 1
+            flash('Cart updated', 'success')
+
+        case 'decrease':
+            if cart_item.quantity <= 1:
+                db.session.delete(cart_item)
+                flash('Item removed from cart', 'success')
+            else:
+                cart_item.quantity -= 1
+                flash('Cart updated', 'success')
     
+        case 'add':
+            cart_item = CartItem(cart_id=cart.id, product_id=product_id, quantity=1)
+            db.session.add(cart_item)
+            flash('Product added to cart', 'success')
+
+        case _:
+            flash('Invalid action', 'error')
+
+    db.session.commit()
+
     return redirect(url_for('cart.view_cart'))
 
 @bp.route('/clear', methods=['POST'])
