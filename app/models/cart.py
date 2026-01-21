@@ -20,5 +20,9 @@ class Cart(db.Model):
         cascade='all, delete-orphan'
     )
 
+    @property
+    def total_quantity(self):
+        return sum(item.quantity for item in self.items)
+
     def __repr__(self):
         return f'<Cart id={self.id}, user_id={self.user_id}, items={self.items}>'
