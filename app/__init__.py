@@ -22,7 +22,7 @@ def create_app():
         from .cart import bp as cart_bp
         
         app.register_blueprint(home_bp)
-        app.register_blueprint(auth_bp)
-        app.register_blueprint(cart_bp)
+        app.register_blueprint(auth_bp, url_prefix='/auth')
+        app.register_blueprint(cart_bp, url_prefix='/cart')
 
         return app

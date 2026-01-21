@@ -5,14 +5,14 @@ from app.extensions import db
 
 bp = Blueprint('cart', __name__)
 
-@bp.route('/cart')
+@bp.route('/')
 @login_required
 def view_cart():
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     
     return render_template('cart.html', cart=cart)
 
-@bp.route('/cart/add/<int:product_id>', methods=['POST'])
+@bp.route('/add/<int:product_id>', methods=['POST'])
 @login_required
 def add_to_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
@@ -32,7 +32,7 @@ def add_to_cart(product_id: int):
     
     return redirect(url_for('home.index'))
 
-@bp.route('/cart/remove/<int:product_id>', methods=['POST'])
+@bp.route('/remove/<int:product_id>', methods=['POST'])
 @login_required
 def remove_from_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
@@ -44,7 +44,7 @@ def remove_from_cart(product_id: int):
     flash('Item removed from cart', 'success')
     return redirect(url_for('cart.view_cart'))
 
-@bp.route('/cart/update/<int:product_id>', methods=['POST'])
+@bp.route('/update/<int:product_id>', methods=['POST'])
 @login_required
 def update_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
@@ -63,7 +63,7 @@ def update_cart(product_id: int):
     
     return redirect(url_for('cart.view_cart'))
 
-@bp.route('/cart/clear', methods=['POST'])
+@bp.route('/clear', methods=['POST'])
 @login_required
 def clear_cart():
     cart = Cart.query.filter_by(user_id=current_user.id).first()
