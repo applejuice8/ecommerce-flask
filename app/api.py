@@ -30,7 +30,10 @@ def add_to_cart(product_id: int):
     db.session.commit()
     flash(f'{product.name} added to cart!', 'success')
     
-    return jsonify({ 'quantity': cart_item.quantity })
+    return jsonify({
+        'quantity': cart_item.quantity,
+        'cartTotal': cart.total_quantity
+    })
 
 @bp.route('/cart/remove/<int:product_id>', methods=['POST'])
 @login_required
@@ -45,7 +48,10 @@ def remove_from_cart(product_id: int):
     db.session.commit()
     
     flash('Item removed from cart', 'success')
-    return jsonify({ 'quantity': 0 })
+    return jsonify({
+        'quantity': 0,
+        'cartTotal': cart.total_quantity
+    })
 
 @bp.route('/cart/update/<int:product_id>', methods=['POST'])
 @login_required
@@ -79,4 +85,7 @@ def update_cart(product_id: int):
 
     db.session.commit()
 
-    return jsonify({ 'quantity': cart_item.quantity })
+    return jsonify({
+        'quantity': cart_item.quantity,
+        'cartTotal': cart.total_quantity
+    })

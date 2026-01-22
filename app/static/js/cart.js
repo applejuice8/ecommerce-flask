@@ -4,6 +4,7 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
         const productId = btn.dataset.productId;
         const action = btn.dataset.action;
         
+        const cartTotal = document.getElementById('cart-total');
         const productCard = document.getElementById(`product-${productId}`);
         const decreaseBtn = productCard.querySelector('[data-action="decrease"]');
         const quantityBtn = productCard.querySelector('.disabled');
@@ -17,11 +18,11 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
         const quantity = data.quantity;
         if (quantity < 1) {
             productCard.remove();
-            return;
         }
 
         decreaseBtn.innerHTML = (quantity == 1) ? '<i class="fa-solid fa-trash-can"></i>' : '-';
         quantityBtn.innerText = quantity;
+        cartTotal.innerText = data.cartTotal;
     })
 })
 

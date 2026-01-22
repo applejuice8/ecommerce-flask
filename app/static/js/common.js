@@ -4,6 +4,7 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
         const productId = btn.dataset.productId;
         const action = btn.dataset.action;
 
+        const cartTotal = document.getElementById('cart-total');
         const productCard = document.getElementById(`product-${productId}`);
         const btnGroup = productCard.querySelector('.btn-group');
         const decreaseBtn = productCard.querySelector('[data-action="decrease"]');
@@ -35,5 +36,6 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
             btnGroup.style.display = 'none';
             addBtn.style.display = 'inline-block';
         }
+        cartTotal.innerText = data.cartTotal;
     })
 })
