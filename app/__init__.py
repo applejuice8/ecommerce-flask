@@ -14,15 +14,16 @@ def create_app():
     with app.app_context():
         # Create db tables
         db.create_all()
-        print('created')
 
         # Register blueprints
         from .home import bp as home_bp
         from .auth import bp as auth_bp
         from .cart import bp as cart_bp
+        from .api import bp as api_bp
         
         app.register_blueprint(home_bp)
         app.register_blueprint(auth_bp, url_prefix='/auth')
         app.register_blueprint(cart_bp, url_prefix='/cart')
+        app.register_blueprint(api_bp, url_prefix='/api')
 
         return app

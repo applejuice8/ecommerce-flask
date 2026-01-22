@@ -1,18 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, flash, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Cart, CartItem, Product
 from app.extensions import db
 
-bp = Blueprint('cart', __name__)
+bp = Blueprint('api', __name__)
 
-@bp.route('/')
-@login_required
-def view_cart():
-    cart = Cart.query.filter_by(user_id=current_user.id).first()
-    
-    return render_template('cart.html', cart=cart)
-
-@bp.route('/add/<int:product_id>', methods=['POST'])
+@bp.route('/cart/add/<int:product_id>', methods=['POST'])
 @login_required
 def add_to_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
@@ -37,24 +30,9 @@ def add_to_cart(product_id: int):
     db.session.commit()
     flash(f'{product.name} added to cart!', 'success')
     
-    return redirect(url_for('home.index'))
+    return jsonify({ 'quantity': cart_item.quantity })
 
-@bp.route('/remove/<int:product_id>', methods=['POST'])
-@login_required
-def remove_from_cart(product_id: int):
-    cart = Cart.query.filter_by(user_id=current_user.id).first()
-    cart_item = CartItem.query.get_or_404(
-        cart_id=cart.id,
-        product_id=product_id
-    )
-    
-    db.session.delete(cart_item)
-    db.session.commit()
-    
-    flash('Item removed from cart', 'success')
-    return redirect(url_for('cart.view_cart'))
-
-@bp.route('/update/<int:product_id>', methods=['POST'])
+@bp.route('/cart/update/<int:product_id>', methods=['POST'])
 @login_required
 def update_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
@@ -73,7 +51,8 @@ def update_cart(product_id: int):
 
         case 'decrease':
             if cart_item.quantity <= 1:
-                remove_from_cart(product_id)
+                db.session.delete(cart_item)
+                flash('Item removed from cart', 'success')
             else:
                 cart_item.quantity -= 1
                 flash('Cart updated', 'success')
@@ -86,17 +65,4 @@ def update_cart(product_id: int):
 
     db.session.commit()
 
-    return redirect(url_for('cart.view_cart'))
-
-@bp.route('/clear', methods=['POST'])
-@login_required
-def clear_cart():
-    cart = Cart.query.filter_by(user_id=current_user.id).first()
-    
-    if cart:
-        # Remove all items
-        CartItem.query.filter_by(cart_id=cart.id).delete()
-        db.session.commit()
-        flash('Cart cleared', 'success')
-    
-    return redirect(url_for('cart.view_cart'))
+    return jsonify({ 'quantity': cart_item.quantity })

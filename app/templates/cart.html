@@ -13,7 +13,7 @@
         {% if cart.items %}
             {% for cart_item in cart.items %}
                 {% set product = cart_item.product %}
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-4 col-lg-3" id="product-{{ product.id }}">
                     <div class="card mx-auto">
                         <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" class="img-responsive" loading="lazy">
                         <div class="card-body">
@@ -48,6 +48,5 @@
         {% endif %}
     </div>
 
-    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
     <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
 {% endblock %}
