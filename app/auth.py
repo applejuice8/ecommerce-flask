@@ -38,7 +38,11 @@ def signup():
         password = form.password.data
         
         # Create user
-        user = User(username=username, email=email, password=password)
+        user = User(
+            username=username,
+            email=email,
+            password=password
+        )
         db.session.add(user)
         db.session.flush()
 

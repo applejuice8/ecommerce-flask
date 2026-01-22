@@ -19,12 +19,19 @@ def add_to_cart(product_id: int):
     product = Product.query.get_or_404(product_id)
     
     # Check if item already in cart
-    cart_item = CartItem.query.filter_by(cart_id=cart.id, product_id=product_id).first()
+    cart_item = CartItem.query.filter_by(
+        cart_id=cart.id,
+        product_id=product_id
+    ).first()
     
     if cart_item:
         cart_item.quantity += 1
     else:
-        cart_item = CartItem(cart_id=cart.id, product_id=product_id, quantity=1)
+        cart_item = CartItem(
+            cart_id=cart.id,
+            product_id=product_id,
+            quantity=1
+        )
         db.session.add(cart_item)
     
     db.session.commit()
@@ -36,7 +43,10 @@ def add_to_cart(product_id: int):
 @login_required
 def remove_from_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
-    cart_item = CartItem.query.get_or_404(cart_id=cart.id, product_id=product_id)
+    cart_item = CartItem.query.get_or_404(
+        cart_id=cart.id,
+        product_id=product_id
+    )
     
     db.session.delete(cart_item)
     db.session.commit()
@@ -48,7 +58,10 @@ def remove_from_cart(product_id: int):
 @login_required
 def update_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
-    cart_item = CartItem.query.filter_by(cart_id=cart.id, product_id=product_id).first()
+    cart_item = CartItem.query.filter_by(
+        cart_id=cart.id,
+        product_id=product_id
+    ).first()
 
     data = request.get_json()
     action = data.get('action')
@@ -67,7 +80,11 @@ def update_cart(product_id: int):
                 flash('Cart updated', 'success')
     
         case 'add':
-            cart_item = CartItem(cart_id=cart.id, product_id=product_id, quantity=1)
+            cart_item = CartItem(
+                cart_id=cart.id,
+                product_id=product_id,
+                quantity=1
+            )
             db.session.add(cart_item)
             flash('Product added to cart', 'success')
 
