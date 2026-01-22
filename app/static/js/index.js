@@ -38,4 +38,4 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
         }
         cartTotal.innerText = data.cartTotal;
     })
-})
+});

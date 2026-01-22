@@ -10,45 +10,45 @@
     {% endif %}
 
     <div class="row">
-        {% if cart.items %}
-            {% for cart_item in cart.items %}
-                {% set product = cart_item.product %}
-                <div class="col-6 col-md-4 col-lg-3" id="product-{{ product.id }}">
-                    <div class="card mx-auto">
-                        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" class="img-responsive" loading="lazy">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text">RM {{ product.price }}</p>
+        {% for cart_item in cart.items %}
+            {% set product = cart_item.product %}
+            <div class="col-6 col-md-4 col-lg-3" id="product-{{ product.id }}" style="{% if not cart.items %}display: none;{% endif %}">
+                <div class="card mx-auto">
+                    <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" class="img-responsive" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">RM {{ product.price }}</p>
 
-                            <!-- Button group -->
-                            <div class="btn-group">
-                                <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">
-                                    {% if cart_item.quantity == 1 %}
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    {% else %}
-                                        -
-                                    {% endif %}
-                                </button>
-                                <button class="btn btn-primary disabled">
-                                    {{ cart_item.quantity }}
-                                </button>
-                                <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
-                            </div>
+                        <!-- Button group -->
+                        <div class="btn-group">
+                            <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">
+                                {% if cart_item.quantity == 1 %}
+                                    <i class="fa-solid fa-trash-can"></i>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </button>
+                            <button class="btn btn-primary disabled">
+                                {{ cart_item.quantity }}
+                            </button>
+                            <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-            <button class="btn btn-primary mt-3" id="checkout">Checkout</button>
-
-        {% else %}
-            <div class="text-center">
-                <h3>
-                    No items in cart.
-                    <a href="{{ url_for('home.index') }}">Start shopping.</a>
-                </h3>
             </div>
+        {% endfor %}
+
+        {% if cart.items %}
+            <button class="btn btn-primary mt-3" id="checkout">Checkout</button>
         {% endif %}
+
+        <div class="text-center" style="{% if cart.items %}display: none;{% endif %}" id="no-items">
+            <h3>
+                No items in cart.
+                <a href="{{ url_for('home.index') }}">Start shopping.</a>
+            </h3>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
