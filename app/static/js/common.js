@@ -27,7 +27,7 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
         // Update DOM
         const quantity = data.quantity;
         if (quantity > 0) {
-            btnGroup.style.display = 'flex';
+            btnGroup.style.display = 'inline-flex';
             addBtn.style.display = 'none'
             quantityBtn.textContent = quantity;
             decreaseBtn.innerHTML = (quantity == 1) ? '<i class="fa-solid fa-trash-can"></i>' : '-';

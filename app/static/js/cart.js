@@ -15,6 +15,11 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
         });
         const data = await res.json();
         const quantity = data.quantity;
+        if (quantity < 1) {
+            productCard.remove();
+            return;
+        }
+
         decreaseBtn.innerHTML = (quantity == 1) ? '<i class="fa-solid fa-trash-can"></i>' : '-';
         quantityBtn.innerText = quantity;
     })

@@ -43,10 +43,10 @@ def add_to_cart(product_id: int):
 @login_required
 def remove_from_cart(product_id: int):
     cart = Cart.query.filter_by(user_id=current_user.id).first()
-    cart_item = CartItem.query.get_or_404(
+    cart_item = CartItem.query.filter_by(
         cart_id=cart.id,
         product_id=product_id
-    )
+    ).first_or_404()
     
     db.session.delete(cart_item)
     db.session.commit()

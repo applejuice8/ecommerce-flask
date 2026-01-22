@@ -17,7 +17,7 @@
                         <p class="card-text">{{ product.description }}</p>
                         <p class="card-text">RM {{ product.price }}</p>
 
-                        <!-- Button group for when product is in cart -->
+                        <!-- Button group when product in cart -->
                         <div class="btn-group" style="{% if product.id not in in_cart %}display: none;{% endif %}">
                             <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">
                                 {% if product.id in in_cart and in_cart[product.id] == 1 %}
@@ -26,13 +26,13 @@
                                     -
                                 {% endif %}
                             </button>
-                            <button class="btn btn-primary disabled quantity-display">
+                            <button class="btn btn-primary disabled">
                                 {% if product.id in in_cart %}{{ in_cart[product.id] }}{% else %}0{% endif %}
                             </button>
                             <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
                         </div>
 
-                        <!-- Add to cart button -->
+                        <!-- Add to cart -->
                         <button class="btn btn-primary update-quantity add-to-cart-btn" data-product-id="{{ product.id }}" data-action="add" style="{% if product.id in in_cart %}display: none;{% endif %}">
                             Add to cart
                         </button>

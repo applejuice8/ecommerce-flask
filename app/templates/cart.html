@@ -21,6 +21,7 @@
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">RM {{ product.price }}</p>
 
+                            <!-- Button group -->
                             <div class="btn-group">
                                 <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">
                                     {% if cart_item.quantity == 1 %}
@@ -29,7 +30,9 @@
                                         -
                                     {% endif %}
                                 </button>
-                                <button class="btn btn-primary disabled">{{ cart_item.quantity }}</button>
+                                <button class="btn btn-primary disabled">
+                                    {{ cart_item.quantity }}
+                                </button>
                                 <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
                             </div>
                         </div>

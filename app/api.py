@@ -32,6 +32,21 @@ def add_to_cart(product_id: int):
     
     return jsonify({ 'quantity': cart_item.quantity })
 
+@bp.route('/cart/remove/<int:product_id>', methods=['POST'])
+@login_required
+def remove_from_cart(product_id: int):
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    cart_item = CartItem.query.filter_by(
+        cart_id=cart.id,
+        product_id=product_id
+    ).first_or_404()
+
+    db.session.delete(cart_item)
+    db.session.commit()
+    
+    flash('Item removed from cart', 'success')
+    return jsonify({ 'quantity': 0 })
+
 @bp.route('/cart/update/<int:product_id>', methods=['POST'])
 @login_required
 def update_cart(product_id: int):
@@ -51,14 +66,13 @@ def update_cart(product_id: int):
 
         case 'decrease':
             if cart_item.quantity <= 1:
-                db.session.delete(cart_item)
-                flash('Item removed from cart', 'success')
+                return remove_from_cart(product_id)
             else:
                 cart_item.quantity -= 1
                 flash('Cart updated', 'success')
     
         case 'add':
-            add_to_cart(product_id)
+            return add_to_cart(product_id)
 
         case _:
             flash('Invalid action', 'error')
