@@ -15,7 +15,7 @@
                 {% set product = cart_item.product %}
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="card mx-auto">
-                        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" class="img-responsive">
+                        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" class="img-responsive" loading="lazy">
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
@@ -23,7 +23,11 @@
 
                             <div class="btn-group">
                                 <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">
-                                    {% if cart_item.quantity == 1 %}🗑{% else %}-{% endif %}
+                                    {% if cart_item.quantity == 1 %}
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    {% else %}
+                                        -
+                                    {% endif %}
                                 </button>
                                 <button class="btn btn-primary disabled">{{ cart_item.quantity }}</button>
                                 <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
@@ -44,5 +48,6 @@
         {% endif %}
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
 {% endblock %}

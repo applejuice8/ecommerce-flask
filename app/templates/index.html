@@ -11,7 +11,7 @@
         {% for product in products %}
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card mx-auto">
-                    <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" class="img-responsive">
+                    <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" class="img-responsive" loading="lazy">
                     <div class="card-body">
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">{{ product.description }}</p>
@@ -20,7 +20,11 @@
                         {% if product.id in in_cart %}
                             <div class="btn-group">
                                 <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="decrease">
-                                    {% if in_cart[product.id] == 1 %}🗑{% else %}-{% endif %}
+                                    {% if in_cart[product.id] == 1 %}
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    {% else %}
+                                        -
+                                    {% endif %}
                                 </button>
                                 <button class="btn btn-primary disabled">{{ in_cart[product.id] }}</button>
                                 <button class="btn btn-primary update-quantity" data-product-id="{{ product.id }}" data-action="increase">+</button>
@@ -34,5 +38,5 @@
         {% endfor %}
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
 {% endblock %}
