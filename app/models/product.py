@@ -22,7 +22,7 @@ class Product(db.Model):
     )
     image = db.Column(
         db.String(500),
-        default='images/no-image.jpg'
+        default='no-image.jpg'
     )
 
     def __repr__(self):

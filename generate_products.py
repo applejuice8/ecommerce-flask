@@ -3,29 +3,69 @@ from app.extensions import db
 from app.models import Product
 import random
 
-product_names = [
-    'Wireless Mouse', 'Bluetooth Speaker', 'USB-C Charger', 'Laptop Stand',
-    'Noise Cancelling Headphones', 'Smartphone Case', 'Gaming Keyboard',
-    'HDMI Cable', 'Portable SSD', 'Smartwatch'
-]
-
-product_descriptions = [
-    'High-quality and durable', 'Best seller product', 'Limited edition',
-    'Compact and portable', 'User-friendly design', 'Top-rated by customers',
-    'Affordable and reliable', 'Premium build quality', 'Perfect for daily use',
-    'Sleek and modern design'
+products = [
+    {
+        'name': 'Wireless Mouse',
+        'description': 'High-quality and durable',
+        'image': 'wireless-mouse.png'
+    },
+    {
+        'name': 'Bluetooth Speaker',
+        'description': 'Best seller product',
+        'image': 'bluetooth-speaker.jpeg'
+    },
+    {
+        'name': 'USB-C Charger',
+        'description': 'Limited edition',
+        'image': 'usb-c-charger.jpg'
+    },
+    {
+        'name': 'Laptop Stand',
+        'description': 'Compact and portable',
+        'image': 'laptop-stand.jpg'
+    },
+    {
+        'name': 'Noise Cancelling Headphones',
+        'description': 'User-friendly design',
+        'image': 'noise-cancelling-headphones.jpg'
+    },
+    {
+        'name': 'Smartphone Case',
+        'description': 'Top-rated by customers',
+        'image': 'smartphone-case.png'
+    },
+    {
+        'name': 'Gaming Keyboard',
+        'description': 'Affordable and reliable',
+        'image': 'gaming-keyboard.jpeg'
+    },
+    {
+        'name': 'HDMI Cable',
+        'description': 'Premium build quality',
+        'image': 'hdmi-cable.jpg'
+    },
+    {
+        'name': 'Portable SSD',
+        'description': 'Perfect for daily use',
+        'image': 'portable-ssd.jpeg'
+    },
+    {
+        'name': 'Smartwatch',
+        'description': 'Sleek and modern design',
+        'image': 'smartwatch.jpg'
+    },
 ]
 
 app = create_app()
 
 with app.app_context():
-    # Generate 10 products
-    for i in range(10):
-        name = product_names[i]
-        description = product_descriptions[i]
-        price = round(random.uniform(10, 200), 2)
-
-        product = Product(name=name, description=description, price=price)
+    for data in products:
+        product = Product(
+            name=data['name'],
+            description=data['description'],
+            price=round(random.uniform(10, 200), 2),
+            image=data['image']
+        )
         db.session.add(product)
 
     db.session.commit()
