@@ -1,3 +1,5 @@
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 // Increase, decrease buttons
 document.querySelectorAll('.update-quantity').forEach(btn => {
     btn.addEventListener('click', async () => {
@@ -14,12 +16,18 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
         let res, data;
 
         if (action == 'add') {
-            res = await fetch(`/api/cart/add/${productId}`, { method: 'POST' });
+            res = await fetch(`/api/cart/add/${productId}`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrfToken }
+            });
             data = await res.json();
         } else {
             res = await fetch(`/api/cart/update/${productId}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
                 body: JSON.stringify({ action })
             });
             data = await res.json();

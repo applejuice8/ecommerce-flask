@@ -1,3 +1,4 @@
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 const checkoutBtn = document.getElementById('checkout');
 const noItemsDiv = document.getElementById('no-items');
 
@@ -14,7 +15,10 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
 
         const res = await fetch(`/api/cart/update/${productId}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
             body: JSON.stringify({ action })
         });
         const data = await res.json();
@@ -37,7 +41,10 @@ document.querySelectorAll('.update-quantity').forEach(btn => {
 
 // Checkout button
 checkoutBtn.addEventListener('click', async () => {
-    await fetch('/cart/clear', { method: 'POST' });
+    await fetch('/cart/clear', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfToken }
+    });
     document.querySelectorAll('.card').forEach(card => { card.remove() });
     checkoutBtn.remove();
     noItemsDiv.style.display = '';
