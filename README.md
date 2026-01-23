@@ -1,4 +1,4 @@
-# Ecommerce Flask
+# ShopApp
 
 ![Screenshot](screenshot.png)
 
