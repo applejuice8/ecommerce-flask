@@ -16,6 +16,7 @@ An ecommerce website built in Python using Flask, SQLAlchemy, SQLite, WTForms an
 │   ├── api.py          # API endpoints used by JavaScript
 │   ├── auth.py
 │   ├── cart.py
+│   ├── errors.py       # Error handlers
 │   ├── extensions.py   # Initializes Flask extensions
 │   ├── forms.py        # Flask WTForms
 │   ├── home.py
@@ -35,6 +36,9 @@ An ecommerce website built in Python using Flask, SQLAlchemy, SQLite, WTForms an
 │   └── templates/      # Jinja2 HTML templates
 │       ├── base.html
 │       ├── cart.html
+│       ├── errors/
+│       │   ├── 404.html
+│       │   └── 500.html
 │       ├── index.html
 │       ├── login.html
 │       └── signup.html

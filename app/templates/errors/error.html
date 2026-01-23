@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}404{% endblock %}
+
+{% block title %}{{ code }}{% endblock %}
 
 {% block content %}
     <div class="container mt-5 d-flex align-items-center justify-content-center">
         <div class="text-center">
-            <h1 class="display-5 fw-semibold mb-3">404</h1>
-            <p class="mb-4">The page you're looking for doesn't exist</p>
+            <h1 class="display-5 fw-semibold mb-3">{{ code }}</h1>
+            <p class="mb-4">{{ name }}</p>
+            <p class="mb-4">{{ description }}</p>
             <a href="{{ url_for('home.index') }}" class="btn btn-primary">Back to home</a>
         </div>
     </div>

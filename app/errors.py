@@ -14,7 +14,7 @@ def register_error_handlers(app):
     @app.errorhandler(HTTPException)
     def handle_http_exception(e):
         return render_template(
-            'error.html',
+            'errors/error.html',
             code=e.code,
             name=e.name,
             description=e.description,
