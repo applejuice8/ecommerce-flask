@@ -1,5 +1,6 @@
 from flask import Flask
 from app.extensions import db, login_manager
+from app.errors import register_error_handlers
 
 def create_app():
     app = Flask(__name__)
@@ -25,5 +26,7 @@ def create_app():
         app.register_blueprint(auth_bp, url_prefix='/auth')
         app.register_blueprint(cart_bp, url_prefix='/cart')
         app.register_blueprint(api_bp, url_prefix='/api')
+
+        register_error_handlers(app)
 
         return app
