@@ -1,5 +1,7 @@
 # Ecommerce Flask
 
+![Screenshot](screenshot.png)
+
 An ecommerce website built in Python using Flask, SQLAlchemy, SQLite, WTForms and Bootstrap.
 
 ## Features
