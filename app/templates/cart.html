@@ -39,10 +39,12 @@
             </div>
         {% endfor %}
 
+        <!-- Checkout button -->
         {% if cart.items %}
             <button class="btn btn-primary mt-3" id="checkout">Checkout</button>
         {% endif %}
 
+        <!-- No items in cart -->
         <div class="text-center" style="{% if cart.items %}display: none;{% endif %}" id="no-items">
             <h3>
                 No items in cart.

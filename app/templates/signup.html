@@ -6,6 +6,7 @@
     <form action="{{ url_for('auth.signup') }}" method="POST">
         {{ form.hidden_tag() }}
 
+        <!-- Username -->
         <div class="mb-3">
             {{ form.username.label(class="form-label") }}
             {{ form.username(class="form-control", id="username") }}
@@ -14,6 +15,7 @@
             {% endfor %}
         </div>
 
+        <!-- Email -->
         <div class="mb-3">
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-control", id="email") }}
@@ -22,6 +24,7 @@
             {% endfor %}
         </div>
 
+        <!-- Password -->
         <div class="mb-3">
             {{ form.password.label(class="form-label") }}
             {{ form.password(class="form-control", id="password") }}
@@ -30,6 +33,7 @@
             {% endfor %}
         </div>
 
+        <!-- Confirm password -->
         <div class="mb-3">
             {{ form.confirm_password.label(class="form-label") }}
             {{ form.confirm_password(class="form-control", id="confirm_password") }}
@@ -38,9 +42,11 @@
             {% endfor %}
         </div>
 
+        <!-- Submit -->
         {{ form.submit(class="btn btn-primary w-100") }}
     </form>
 
+    <!-- Redirect to login -->
     <div class="text-center">
         <p>Already have an account? <a href="{{ url_for('auth.login') }}">Log In</a></p>
     </div>
