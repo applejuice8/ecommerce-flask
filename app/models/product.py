@@ -25,5 +25,14 @@ class Product(db.Model):
         default='no-image.jpg'
     )
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'price': self.price,
+            'image': self.image,
+        }
+
     def __repr__(self):
         return f'<Product id={self.id}, name={self.name}, description={self.description}, price={self.price}, image={self.image}>'

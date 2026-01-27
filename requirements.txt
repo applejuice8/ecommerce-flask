@@ -4,3 +4,4 @@ flask-login
 flask-sqlalchemy
 flask-wtf
 email-validator
+flask-redis

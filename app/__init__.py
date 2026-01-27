@@ -1,5 +1,5 @@
 from flask import Flask
-from app.extensions import db, login_manager, csrf
+from app.extensions import db, redis_client, login_manager, csrf
 from app.errors import register_error_handlers
 
 def create_app():
@@ -8,6 +8,7 @@ def create_app():
 
     # Initialize plugins
     db.init_app(app)
+    redis_client.init_app(app)
     login_manager.init_app(app)
     csrf.init_app(app)
 

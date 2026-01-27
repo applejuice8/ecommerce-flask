@@ -52,3 +52,23 @@ An ecommerce website built in Python using Flask, SQLAlchemy, SQLite, WTForms an
 ├── requirements.txt
 └── wsgi.py             # WSGI entry point for running the app
 ```
+
+# Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Set Up Redis
+
+### Install Redis
+
+```bash
+brew install redis
+```
+
+### Run Redis
+
+```bash
+redis-server
+```

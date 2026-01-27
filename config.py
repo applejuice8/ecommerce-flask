@@ -12,3 +12,6 @@ class Config:
     # Database
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Redis
+    REDIS_URL = os.getenv('REDIS_URL')
